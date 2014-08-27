@@ -36,7 +36,7 @@ Benefits (client-side): ...
   - basic use case, explain the very simple syntax (natural tuple syntax).
     Function call usage:
 
-  _ suggest `returns` or `output`.
+  - suggest `returns` or `output`.
 
   - default unwrap for one argument, how to force wrap. Explain that trailing
     comma works (simplifies programatic generation of wishlist from a true 
