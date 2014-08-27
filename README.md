@@ -15,7 +15,7 @@ Simplest example: replace
 
   
     def f(a, b, c, d):
-        ...
+        # ...
         return e, f, g, h
 
 with
@@ -36,11 +36,11 @@ Benefits (client-side): ...
   - basic use case, explain the very simple syntax (natural tuple syntax).
     Function call usage:
 
-  - suggest `returns` or `output`.
+  - suggest `returns` or `output`, `output_args`, etc.
 
   - default unwrap for one argument, how to force wrap. Explain that trailing
     comma works (simplifies programatic generation of wishlist from a true 
-    list).
+    list). State explictely that repeating an argument is ok.
 
   - examine the variables that are required for early checks or 
     reduced computations.
@@ -64,4 +64,7 @@ related functions). Start with [`decomp_svd.py`](https://github.com/scipy/scipy/
 
         return wishes.grant()
 
+
+Actually, do the stuff in an `examples` or `samples` dir and just display
+the documentation / docstring here ?
 
