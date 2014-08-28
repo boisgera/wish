@@ -2,8 +2,8 @@
 Wishlist
 ================================================================================
 
-**TDLR:** if you have a function that returns three arguments or more,
-we may be able to help.
+**TL;DR.** You have a function that returns three arguments (or more) ?
+We may be able to help.
 
 -----
 
