@@ -59,7 +59,7 @@ The [SciPy](http://www.scipy.org/) library provides an implementation of
 the [singular value decomposition][svd] of matrices. The code is available
 in the file `decomp_svd.py`, available 
 [online](https://github.com/scipy/scipy/blob/master/scipy/linalg/decomp_svd.py),
-and reproduced in the [`examples` directory][examples] ] of `wishlist`.
+and reproduced in the [`examples` directory][examples] of `wishlist`.
 
 [svd]: http://en.wikipedia.org/wiki/Singular_value_decomposition
 [examples]: https://github.com/boisgera/wishlist/tree/master/examples
