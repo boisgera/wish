@@ -13,17 +13,22 @@ return a large number of return values in a Pythonic way.
 There are several features, built into the Python language, to deal with
 functions that may accept a large number of arguments: [default argument values, 
 argument lists and keyword arguments][arguments]. And this panel of options
-just works beautifully: the scheme is flexible and the syntax that is terse.
+just works beautifully: the scheme is flexible, the syntax is terse and readable.
 
 [arguments]: https://docs.python.org/2/tutorial/controlflow.html#more-on-defining-functions
 
 And what do we have to deal with a large number of return values ? Tuples !
-This is actually the canonical way to return multiple values, but it is not 
-really convienent.
-
+This is actually the canonical way to return multiple values, but it is not
+really convienent. We may help you with that ... Read on !
 
 Getting Started
 --------------------------------------------------------------------------------
+
+First, install wishlist 
+
+    $ pip install wishlist
+
+*NOT AVAILABLE YET**
 
 Simplest example: replace
 
