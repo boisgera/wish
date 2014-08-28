@@ -5,13 +5,16 @@ Wishlist
 Wishlist allows you to that you define and call functions that may
 return a large number of return values in a Pythonic way.
 
-One problem that we currently have with function is that there are several
-features, built into the Python language, to deal with functions that may 
-accept a large number of arguments: [default argument values, argument lists
-and keyword arguments][arguments].
+There are several features, built into the Python language, to deal with
+functions that may accept a large number of arguments: [default argument values, 
+argument lists and keyword arguments][arguments]. And this panel of options
+just works beautifully: the scheme is flexible and the syntax that is terse.
 
 [arguments]: https://docs.python.org/2/tutorial/controlflow.html#more-on-defining-functions
 
+And what do we have to deal with a large number of return values ? Tuples !
+This is actually the canonical way to return multiple values, but it is not 
+really convienent.
 
 
 Getting Started
