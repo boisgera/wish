@@ -28,7 +28,7 @@ First, install wishlist
 
     $ pip install wishlist
 
-*NOT AVAILABLE YET**
+*NOT AVAILABLE YET*
 
 Simplest example: replace
 
