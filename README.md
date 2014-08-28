@@ -62,62 +62,77 @@ the [singular value decomposition][svd] of matrices. The code is in a file
 [svd]: http://en.wikipedia.org/wiki/Singular_value_decomposition
 [examples]: https://github.com/boisgera/wishlist/tree/master/examples
 
-
-
     def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
             check_finite=True, returns="U, S, Vh"):
-        """
-        Singular Value Decomposition.
 
-        Factorizes the matrix a into two unitary matrices U and Vh, and
-        a diagonal matrix S of suitable shape with non-negative real 
-        numbers on the diagonal.
-    .
+-----
 
-        Parameters
-        ----------
-        a : (M, N) array_like
-            Matrix to decompose.
-        full_matrices : bool, optional
-            If True, `U` and `Vh` are of shape ``(M,M)``, ``(N,N)``.
-            If False, the shapes are ``(M,K)`` and ``(K,N)``, where
-            ``K = min(M,N)``.
-        overwrite_a : bool, optional
-            Whether to overwrite `a`; may improve performance.
-            Default is False.
-        check_finite : boolean, optional
-            Whether to check that the input matrix contains only finite numbers.
-            Disabling may give a performance gain, but may result in problems
-            (crashes, non-termination) if the inputs do contain infinities or NaNs.
-        returns: string, optional
-            Select the returned values, among ``U``, ``S``, ``Vh``, ``s``.
-            The default is "U, S, Vh".
+### Singular Value Decomposition.
+
+Factorizes the matrix a into two unitary matrices `U` and `Vh`, and
+a diagonal matrix `S` of suitable shape with non-negative real 
+numbers on the diagonal.
+    
+
+#### Parameters
+
+  - `a`: `(M, N)` array_like
+
+    Matrix to decompose.
+
+  - `full_matrices`: `bool`, optional
+    
+    If `True`, `U` and `Vh` are of shape `(M,M)`, `(N,N)`.
+    If `False`, the shapes are `(M,K)` and `(K,N)`, where `K = min(M,N)`.
+
+  - `overwrite_a`: `bool`, optional
+      
+     Whether to overwrite `a`; may improve performance.
+     Default is `False`.
+
+  - `check_finite`: `boolean`, optional
+    
+    Whether to check that the input matrix contains only finite numbers.
+    Disabling may give a performance gain, but may result in problems
+    (crashes, non-termination) if the inputs do contain infinities or NaNs.
+
+  - `returns`: `string`, optional 
+     
+    Select the returned values, among `U`, `S`, `Vh`, `s`.
+    Default is `"U, S, Vh"`.
+
+#### Returns
+
+The selection of return values is configurable by the `returns` parameter.
+
+  - `U`: `ndarray`
+
+    Unitary matrix having left singular vectors as columns.
+    Of shape `(M,M)` or ``M,K)`, depending on `full_matrices`.
+
+  - `S` : `ndarray`
+
+    A matrix with the singular values of `a`, sorted in non-increasing
+    order, in the main diagonal and zeros elsewhere.
+    Of shape `(M,N)` or `(K,K)`, depending on `full_matrices`.
+
+  - `Vh`: `ndarray`
+     
+    Unitary matrix having right singular vectors as rows.
+    Of shape `(N,N)` or `(K,N)` depending on `full_matrices`.
+    
+  - `s`: `ndarray`, not returned by default
             
-        Returns
-        -------
+    The singular values, sorted in non-increasing order.
+    Of shape `(K,)`, with `K = min(M, N)`.
 
-        The selection of return values is configurable by the ``returns`` parameter.
+#### Raises
 
-        U : ndarray
-            Unitary matrix having left singular vectors as columns.
-            Of shape ``(M,M)`` or ``(M,K)``, depending on `full_matrices`.
-        S : ndarray
-            A matrix with the singular values of ``a``, sorted in non-increasing
-            order, in the main diagonal and zeros elsewhere.
-            Of shape ``(M,N)`` or ``(K,K)``, depending on `full_matrices`.
-        Vh : ndarray
-            Unitary matrix having right singular vectors as rows.
-            Of shape ``(N,N)`` or ``(K,N)`` depending on `full_matrices`.
-        s : ndarray, not returned by default
-            The singular values, sorted in non-increasing order.
-            Of shape (K,), with ``K = min(M, N)``.
+  - `LinAlgError`
 
-        Raises
-        ------
-        LinAlgError
-            If SVD computation does not converge.
+    If SVD computation does not converge.
 
-        """
+-----
 
 The new interface can be used like that:
 

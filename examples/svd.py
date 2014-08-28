@@ -41,7 +41,7 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
         (crashes, non-termination) if the inputs do contain infinities or NaNs.
     returns: string, optional
         Select the returned values, among ``U``, ``S``, ``Vh``, ``s``.
-        The default is "U, S, Vh".
+        Default is ``"U, S, Vh"``.
         
     Returns
     -------
