@@ -2,6 +2,11 @@
 Wishlist
 ================================================================================
 
+**TDLR:** if you have a function that returns three arguments or more,
+we may be able to help.
+
+-----
+
 Wishlist allows you to that you define and call functions that may
 return a large number of return values in a Pythonic way.
 
