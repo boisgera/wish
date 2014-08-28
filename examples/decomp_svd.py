@@ -3,10 +3,11 @@ from __future__ import division, print_function, absolute_import
 
 import numpy
 from numpy import asarray_chkfinite, asarray, zeros, r_, diag
+from scipy.linalg import calc_lwork
 
-# Local imports.
-from .misc import LinAlgError, _datacopied
-from .lapack import get_lapack_funcs
+# Scipy.linalg imports.
+from scipy.linalg.misc import LinAlgError, _datacopied
+from scipy.linalg.lapack import get_lapack_funcs
 
 __all__ = ['svd', 'svdvals', 'diagsvd', 'orth']
 
@@ -92,17 +93,10 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
         raise ValueError('expected matrix')
     m,n = a1.shape
     overwrite_a = overwrite_a or (_datacopied(a1, a))
+    gesdd, = get_lapack_funcs(('gesdd',), (a1,))
 
-    gesdd, gesdd_lwork = get_lapack_funcs(('gesdd', 'gesdd_lwork'), (a1,))
-
-    # compute optimal lwork
-    lwork, info = gesdd_lwork(a1.shape[0], a1.shape[1], compute_uv=compute_uv, full_matrices=full_matrices)
-    if info != 0:
-        raise ValueError('work array size computation for internal gesdd failed: %d' % info)
-    lwork = int(lwork.real)
-
-    # perform decomposition
-    u,s,v,info = gesdd(a1, compute_uv=compute_uv, lwork=lwork,
+    lwork = calc_lwork.gesdd(gesdd.typecode, m, n, compute_uv)[1]
+    u,s,v,info = gesdd(a1,compute_uv=compute_uv, lwork=lwork,
                        full_matrices=full_matrices, overwrite_a=overwrite_a)
 
     if info > 0:
@@ -204,7 +198,7 @@ def orth(A):
     svd : Singular value decomposition of a matrix
 
     """
-    u, s, vh = svd(A, full_matrices=False)
+    u, s, vh = svd(A)
     M, N = A.shape
     eps = numpy.finfo(float).eps
     tol = max(M,N) * numpy.amax(s) * eps
