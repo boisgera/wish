@@ -14,19 +14,30 @@ Getting Started
 Simplest example: replace
 
   
-    def f(a, b, c, d):
-        # ...
-        return e, f, g, h
+    def f(a, b):
+        c, d, e = a - b, a + b, a * b
+        return c, d, e
 
 with
 
     import wishlist
 
-    def f(a, b, c, d, returns="e, f, g, h"):
+    def f(a, b, returns="c, d, e"):
         wishes = wishlist.make(returns)
-        ...
+        c, d, e = a - b, a + b, a * b
         return wishes.grant()
 
+
+Usage:
+
+    >>> c, d, e = f(a, b) 
+
+    >>> c = f(a, b, c, returns="c")
+    >>> d = f(a, b, c, returns="d")
+    >>> e = f(a, b, c, returns="e")
+
+    >>> c, d = f(a, b, c, returns="c, d")
+    >>> e, c, d = f(a, b, c, returns="e, c, d")    
 
 Benefits (client-side): ...
 
