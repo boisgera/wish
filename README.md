@@ -56,14 +56,29 @@ Concrete Use Case
 --------------------------------------------------------------------------------
 
 The [SciPy](http://www.scipy.org/) library provides an implementation of 
-the [singular value decomposition][svd] of matrices. The code is in a file
-`decomp_svd.py`, [available online](https://github.com/scipy/scipy/blob/master/scipy/linalg/decomp_svd.py), and reproduced in the [`examples` directory][examples] of `wishlist`.
+the [singular value decomposition][svd] of matrices that provides of good
+example of the kind of improvement that wishlist allows. 
+
+The original code is in a file `decomp_svd.py`, [available online][decomp_svd.py], 
+and reproduced in the [`examples` directory][examples] of `wishlist`. In the
+same directory, the file [svd.py] is a redesign of the interface powered by
+wishlist.
 
 [svd]: http://en.wikipedia.org/wiki/Singular_value_decomposition
+[decomp_svd.py]: https://github.com/scipy/scipy/blob/master/scipy/linalg/decomp_svd.py
 [examples]: https://github.com/boisgera/wishlist/tree/master/examples
+[svd.py]: https://github.com/boisgera/wishlist/tree/master/examples/svd.py
 
-    def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
-            check_finite=True, returns="U, S, Vh"):
+The original module exports three functions to deal with the different set of
+returned values we may be interested in. Additionally, the main one has an 
+optional parameter that provides a limited control on the returned values:
+either three values are returned, or a single one.
+
+The redesign provide instead a single function, whose prototype is:
+
+    def svd(a, 
+            full_matrices=True, compute_uv=True, overwrite_a=False, check_finite=True,
+            returns="U, S, Vh"):
 
 
 -----
