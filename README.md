@@ -65,6 +65,48 @@ the [singular value decomposition][svd] of matrices. The code is in a file
     def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
             check_finite=True, returns="U, S, Vh"):
 
+
+-----
+
+The new interface can be used like that:
+
+    >>> import numpy as np
+    >>> a = np.random.randn(9, 6) + 1.j*np.random.randn(9, 6)
+    >>> U, S, Vh, s = svd(a, returns="U, S, Vh, s")
+    >>> U.shape, S.shape, Vh.shape, s.shape
+    ((9, 9), (9, 6), (6, 6), (6,))
+
+    >>> U, S, Vh = svd(a, full_matrices=False)
+    >>> U.shape, S.shape, Vh.shape
+    ((9, 6), (6, 6), (6, 6))
+    >>> np.allclose(a, np.dot(U, np.dot(S, Vh)))
+    True
+
+    >>> s2 = svd(a, returns="s")
+    >>> np.allclose(s, s2)
+    True
+
+
+
+
+Example of a redesign of `scipy.linalg.svd` (actually, merge several
+related functions). Start with 
+
+Benefits:
+
+
+  - reduced redundancy
+
+  - simpler interface: one function instead of three.
+
+
+
+
+Here is the full documentation of the redesigned `svd` function, 
+in the [NumpPy/Scipy style][numpy-doc].
+
+[numpy-doc]: https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
+
 -----
 
 ### Singular Value Decomposition.
@@ -131,40 +173,4 @@ The selection of return values is configurable by the `returns` parameter.
   - `LinAlgError`
 
     If SVD computation does not converge.
-
------
-
-The new interface can be used like that:
-
-    >>> import numpy as np
-    >>> a = np.random.randn(9, 6) + 1.j*np.random.randn(9, 6)
-    >>> U, S, Vh, s = svd(a, returns="U, S, Vh, s")
-    >>> U.shape, S.shape, Vh.shape, s.shape
-    ((9, 9), (9, 6), (6, 6), (6,))
-
-    >>> U, S, Vh = svd(a, full_matrices=False)
-    >>> U.shape, S.shape, Vh.shape
-    ((9, 6), (6, 6), (6, 6))
-    >>> np.allclose(a, np.dot(U, np.dot(S, Vh)))
-    True
-
-    >>> s2 = svd(a, returns="s")
-    >>> np.allclose(s, s2)
-    True
-
-
-
-
-Example of a redesign of `scipy.linalg.svd` (actually, merge several
-related functions). Start with 
-
-Benefits:
-
-
-  - reduced redundancy
-
-  - simpler interface: one function instead of three.
-
-
-
 
