@@ -2,11 +2,17 @@
 Wishlist
 ================================================================================
 
-Intro/Motivation
+Wishlist allows you to that you define and call functions that may
+return a large number of return values in a Pythonic way.
+
+One problem that we currently have with function is that there are several
+features, built into the Python language, to deal with functions that may 
+accept a large number of arguments: [default argument values, argument lists
+and keyword arguments][arguments].
+
+[arguments]: https://docs.python.org/2/tutorial/controlflow.html#more-on-defining-functions
 
 
-Info / Installation
---------------------------------------------------------------------------------
 
 Getting Started
 --------------------------------------------------------------------------------
