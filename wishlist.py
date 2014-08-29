@@ -34,6 +34,24 @@ import inspect
 # Third-Party Libraries
 pass
 
+# Q: rename the module "wish" ? To avoid multiplication of the names ?
+# The API is now wish / grant (as verbs). Or keep wishlist to emphasize
+# the sequence API of the object ? Here "wish" does not mean *A* wish,
+# the noun, but *TO* wish something.
+
+# TODO: don't mix metaphors and keep simple things simple: in the basic
+# use case, there is no need for an explicit "wishlist" concept: you just
+# define
+#
+#     import wish
+#
+#     def  f(a, b, returns="a, b"):
+#         ...
+#         return wish.grant(returns)
+#
+# So, it makes sense to have a "wish" module. Wishlist may be useful, but
+# this is arguably and advanced concept.
+
 # Goal: management of multiple return values as tuples, which is classic in
 # Python, but with a set of returned values that is configurable (by a 
 # function arguments). So this is a kind of "configurable set of returned
