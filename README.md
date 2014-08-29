@@ -39,10 +39,10 @@ Simplest example: replace
 
 with
 
-    import wishlist
+    from wishlist import wish, grant
 
     def f(a, b, returns="c, d, e"):
-        wishes = wishlist.make(returns)
+        wishes = wish(returns)
         c, d, e = a - b, a + b, a * b
         return wishes.grant()
 

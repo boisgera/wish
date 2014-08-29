@@ -19,6 +19,8 @@ if __name__ == "__main__":
       py_modules = ["wishlist"],
       install_requires = ["setuptools"],
       data_files = [("", ["README.md"])],
+
+      test_suite = "test.test_suite",
     )
 
 

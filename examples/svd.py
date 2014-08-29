@@ -87,7 +87,7 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
     True
 
     """
-    wishes = wishlist.make(returns)
+    wishes = wishlist.wish(returns)
 
     if check_finite:
         a1 = asarray_chkfinite(a)

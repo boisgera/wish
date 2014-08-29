@@ -57,7 +57,9 @@ pass
 # "NAME_1, NAME_2,". Accept "*" as a wildcard ? List of returned values
 # should obviously be accepted to (they are never unpacked)
 
-def make(list_):
+# Question: return None or () ? Mmmm. () for consistency.
+
+def wish(list_):
     return WishList(list_)
 
 class WishList(list):
