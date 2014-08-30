@@ -2,7 +2,7 @@
 Wish
 ================================================================================
 
-**TL;DR.** Your functions return (too) many arguments ? We may be able to help.
+**TL;DR.** Your functions return too many arguments ? We may be able to help.
 
 -----
 
