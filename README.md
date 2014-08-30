@@ -44,7 +44,7 @@ with
 
     def f(a, b, returns="c, d, e"):
         c, d, e = a - b, a + b, a * b
-        return wishes.grant(returns)
+        return wish.grant(returns)
 
 
 Usage:
