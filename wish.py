@@ -1,24 +1,28 @@
 # coding: utf-8
-"""
-TODO: documentation.
-"""
 
-# Third-Party Libaries
-import pkg_resources 
+# Python 2.7 Standard Library
+import inspect
+
+# Third-Party Libraries
+import prkg_resources
 
 def _open(filename):
-    "Open a data file with the Resource Management API"
+    'Open a data file, try the "Resource Management API" first.'
     requirement = pkg_resources.Requirement.parse(__name__)
-    return open(pkg_resources.resource_filename(requirement, filename))
+    try:
+        file = open(pkg_resources.resource_filename(requirement, filename))
+    except (IOError, pkg_resources.DistributionNotFound):
+        file = open(filename)
+    return file
 
 # Metadata
-__name__        = "wish",
-__version__     = None,
-__license__     = "MIT License",
-__author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>",
-__url__         = "https://warehouse.python.org/project/wishlist",
+__name__        = "wish"
+__version__     = "1.0.0-alpha.1"
+__license__     = "MIT License"
+__author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"
+__url__         = "https://warehouse.python.org/project/wishlist"
 __summary__     = "A convenient pattern for multiple return values."
-__readme__      = _open("README.md").read(), 
+__readme__      = _open("README.md").read()
 __classifiers__ = ["Programming Language :: Python :: 2.7" ,
                    "Operating System :: OS Independent"    ,
                    "Topic :: Software Development"         ,
@@ -27,13 +31,6 @@ __classifiers__ = ["Programming Language :: Python :: 2.7" ,
                    "Development Status :: 3 - Alpha"       ]
 
 # ------------------------------------------------------------------------------ 
-
-# Python 2.7 Standard Library
-import inspect
-
-# Third-Party Libraries
-pass
-
 def make(list_):
     return WishList(list_)
 

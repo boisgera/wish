@@ -38,7 +38,7 @@ def _open(filename):
 
 metadata = dict(
     __name__        = "about",
-    __version__     = "3.0.0-alpha.2",
+    __version__     = "3.0.0-alpha.4",
     __license__     = "MIT License",
     __author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>",
     __url__         = "https://warehouse.python.org/project/about",
@@ -87,6 +87,7 @@ def get_metadata(source):
     # Search for author email with a <...@...> syntax in the author field.
     author = metadata.get("__author__")
     if author is not None:
+        author = author.encode("utf-8")
         email_pattern = r"<([^>]+@[^>]+)>"
         match = re.search(email_pattern, author)
         if match is not None:
@@ -200,7 +201,7 @@ class About(setuptools.Command):
 
 
 if __main__:
-    import about
+    import about # this, my dear, is buggy if about exist locally.
     local = open("about.py", "w")
     local.write(open(inspect.getsourcefile(about)).read())
     local.close()
