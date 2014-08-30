@@ -4,7 +4,7 @@
 import inspect
 
 # Third-Party Libraries
-import prkg_resources
+import pkg_resources
 
 def _open(filename):
     'Open a data file, try the "Resource Management API" first.'
@@ -17,7 +17,7 @@ def _open(filename):
 
 # Metadata
 __name__        = "wish"
-__version__     = "1.0.0-alpha.1"
+__version__     = "1.0.0-alpha.2"
 __license__     = "MIT License"
 __author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"
 __url__         = "https://warehouse.python.org/project/wishlist"
