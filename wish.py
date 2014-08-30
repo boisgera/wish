@@ -17,7 +17,7 @@ __version__     = None,
 __license__     = "MIT License",
 __author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>",
 __url__         = "https://warehouse.python.org/project/wishlist",
-__summary__     = "Specify the variables that a function returns."
+__summary__     = "A convenient pattern for multiple return values."
 __readme__      = _open("README.md").read(), 
 __classifiers__ = ["Programming Language :: Python :: 2.7" ,
                    "Operating System :: OS Independent"    ,
@@ -33,49 +33,6 @@ import inspect
 
 # Third-Party Libraries
 pass
-
-# Q: rename the module "wish" ? To avoid multiplication of the names ?
-# The API is now wish / grant (as verbs). Or keep wishlist to emphasize
-# the sequence API of the object ? Here "wish" does not mean *A* wish,
-# the noun, but *TO* wish something.
-
-# TODO: don't mix metaphors and keep simple things simple: in the basic
-# use case, there is no need for an explicit "wishlist" concept: you just
-# define
-#
-#     import wish
-#
-#     def  f(a, b, returns="a, b"):
-#         ...
-#         return wish.grant(returns)
-#
-# So, it makes sense to have a "wish" module. Wishlist may be useful, but
-# this is arguably and advanced concept.
-
-# Goal: management of multiple return values as tuples, which is classic in
-# Python, but with a set of returned values that is configurable (by a 
-# function arguments). So this is a kind of "configurable set of returned
-# values). We are "packaging" the returned values.
-#
-# With this scheme, you avoid clumsy "unpacking" syntax stuff, you
-# even may avoid the COMPUTATIONS of those values if you don't need it,
-#
-# We aim at: 1) being convenient for simple/default case (single return
-# values for example) 2) support multiple return values "classically"
-# (as tuples) 3) allows configurability 4) allow for lazyness (fat return
-# values are avoided).
-#
-# Management of Named (multiple) Return Values, whose set is determined 
-# by the input argument (to avoid computations of the values we dont need)
-# Optionally, go for (custom) named tuples ?
-
-# Return Values Specification: TODO
-#
-# Syntax: "NAME" (unwraped), "NAME,", (tuple wraped) "NAME_1, NAME2",
-# "NAME_1, NAME_2,". Accept "*" as a wildcard ? List of returned values
-# should obviously be accepted to (they are never unpacked)
-
-# Question: return None or () ? Mmmm. () for consistency.
 
 def make(list_):
     return WishList(list_)
