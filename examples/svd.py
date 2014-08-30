@@ -1,7 +1,7 @@
 """SVD decomposition functions."""
 from __future__ import division, print_function, absolute_import
 
-import wishlist
+import wish
 
 import numpy
 from numpy import asarray_chkfinite, asarray, zeros, r_, diag
@@ -87,7 +87,11 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
     True
 
     """
-    wishes = wishlist.wish(returns)
+    wishlist = wish.make(returns)
+    for name in wishlist: 
+        if name not in ["U", "S", "Vh", "s"]:
+            error = "svd() wishes for an unexpected return value {name!r}"
+            raise TypeError(error.format(name=name))
 
     if check_finite:
         a1 = asarray_chkfinite(a)
@@ -108,10 +112,10 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
     if info < 0:
         raise ValueError('illegal value in %d-th argument of internal gesdd'
                                                                     % -info)
-    if "S" in wishes:
+    if "S" in wishlist:
         S = _diagsvd(s, U.shape[1], Vh.shape[0])
 
-    return wishes.grant()
+    return wishlist.grant()
 
 
 def _diagsvd(s, M, N):

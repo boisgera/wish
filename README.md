@@ -1,5 +1,5 @@
 
-Wishlist
+Wish
 ================================================================================
 
 **TL;DR.** You have a function that returns three arguments (or more) ?
@@ -7,7 +7,7 @@ We may be able to help.
 
 -----
 
-Wishlist allows you to that you define and call functions that may
+Wish allows you to that you define and call functions that may
 return a large number of return values in a Pythonic way.
 
 There are several features, built into the Python language, to deal with
@@ -21,12 +21,13 @@ And what do we have to deal with a large number of return values ? Tuples !
 This is actually the canonical way to return multiple values, but it is not
 really convienent. We may help you with that ... Read on !
 
+
 Getting Started
 --------------------------------------------------------------------------------
 
-First, install wishlist 
+First, install wish
 
-    $ pip install wishlist
+    $ pip install wish
 
 *NOT AVAILABLE YET*
 
@@ -39,12 +40,11 @@ Simplest example: replace
 
 with
 
-    from wishlist import wish, grant
+    import wish
 
     def f(a, b, returns="c, d, e"):
-        wishes = wish(returns)
         c, d, e = a - b, a + b, a * b
-        return wishes.grant()
+        return wishes.grant(returns)
 
 
 Usage:

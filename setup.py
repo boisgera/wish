@@ -13,10 +13,10 @@ except ImportError:
 
 if __name__ == "__main__":
     setuptools.setup(
-      name       = "wishlist",
+      name       = "wish",
       version    = None,
 
-      py_modules = ["wishlist"],
+      py_modules = ["wish"],
       install_requires = ["setuptools"],
       data_files = [("", ["README.md"])],
 
