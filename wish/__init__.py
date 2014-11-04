@@ -11,7 +11,7 @@ import pkg_resources
 # ------------------------------------------------------------------------------
 #
 __name__        = "wish"
-__version__     = "1.0.0"
+__version__     = "1.0.0-alpha.2"
 __license__     = "MIT License"
 __author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"
 __url__         = "https://warehouse.python.org/project/wishlist"

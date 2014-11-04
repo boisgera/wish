@@ -2,7 +2,7 @@
 Wish
 ================================================================================
 
-**TL;DR.** Your functions return too many values ? *Wish* can help you.
+**TL;DR.** Your functions return too many values ? We wish to help.
 
 -----
 

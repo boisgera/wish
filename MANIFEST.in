@@ -1,2 +1,4 @@
-include lib/*.py
+include test.py
+recursive-include .lib *
+recursive-exclude .lib *.pyc
 

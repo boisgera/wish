@@ -49,23 +49,22 @@ Wishlist Test Suite
     >>> wish.make("a, b, c,") == ["a", "b", "c"]
     True
 
-
 """
 
 # Python 2.7 Standard Library
 import doctest
-import unittest
 import sys
 
-__main__ = __name__ == "__main__" 
+__main__ = (__name__ == "__main__")
 __name__ = "test"
 
 if __main__:
     sys.modules[__name__] = sys.modules["__main__"]
 
-test_suite = doctest.DocTestSuite()
+import test
+
+suite = doctest.DocTestSuite(test)
 
 if __main__:
-    doctest.testmod()
-
+    doctest.testmod(test)
 
