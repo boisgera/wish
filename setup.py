@@ -2,6 +2,7 @@
 # coding: utf-8
 
 # Python 2.7 Standard Library
+import os.path
 import sys
 
 # Third-Party Libraries
@@ -12,8 +13,11 @@ except ImportError:
     error = "pip is not installed, refer to <{url}> for instructions."
     raise ImportError(error.format(url="http://pip.readthedocs.org"))
 
+def local(path):
+    return os.path.join(os.path.dirname(__file__), path)
+
 # Extra Third-Party Libraries
-sys.path.insert(1, ".lib")
+sys.path.insert(1, local(".lib"))
 try:
     setup_requires = ["about>=4.0.0"]
     require = lambda *r: pkg_resources.WorkingSet().require(*r)
@@ -27,8 +31,8 @@ except pkg_resources.DistributionNotFound:
     raise ImportError(error.format(req=" ".join(setup_requires)))
 
 # Project Library
+sys.path.insert(1, local(""))
 import wish
-
 
 info = dict(
   metadata     = about.get_metadata(wish),
