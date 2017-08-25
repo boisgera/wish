@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <link rel="shortcut icon" href="../assets/images/favicon.png">
+      
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.8.1">
+    
+    
+      
+        <title>Singular Value Decomposition - Wish</title>
+      
+    
+    
+      <script src="../assets/javascripts/modernizr-1df76c4e58.js"></script>
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application-bfecc7305d.css">
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+  </head>
+  
+  
+  
+  
+    <body>
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <a href=".." title="Wish" class="md-icon md-icon--home md-header-nav__button">
+          </a>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Examples
+                </span>
+              
+            
+            Singular Value Decomposition
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="" data-md-lang-tokenizer="[\s\-]+">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/boisgera/wish" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      wish
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    
+      <i class="md-icon md-icon--home md-nav__button"></i>
+    
+    Wish
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/boisgera/wish" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      wish
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../installation/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../numerical-differentiation/" title="Numerical Differentiation" class="md-nav__link">
+      Numerical Differentiation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Singular Value Decomposition
+      </label>
+    
+    <a href="./" title="Singular Value Decomposition" class="md-nav__link md-nav__link--active">
+      Singular Value Decomposition
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context" title="Context" class="md-nav__link">
+    Context
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-api" title="Basic API" class="md-nav__link">
+    Basic API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#singular-values" title="Singular Values" class="md-nav__link">
+    Singular Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconstruction" title="Reconstruction" class="md-nav__link">
+    Reconstruction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-new-api" title="The New API" class="md-nav__link">
+    The New API
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../reference/" title="Reference" class="md-nav__link">
+      Reference
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context" title="Context" class="md-nav__link">
+    Context
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-api" title="Basic API" class="md-nav__link">
+    Basic API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#singular-values" title="Singular Values" class="md-nav__link">
+    Singular Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconstruction" title="Reconstruction" class="md-nav__link">
+    Reconstruction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-new-api" title="The New API" class="md-nav__link">
+    The New API
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Singular Value Decomposition</h1>
+                
+                <div class="admonition summary">
+<p class="admonition-title">Summary</p>
+<p>We redesign the API of the SVD function of SciPy
+with wish to demonstrate the method and its benefits.</p>
+</div>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>The <a href="http://www.scipy.org/">SciPy</a> library 
+implements <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">singular value decomposition</a>
+(SVD),
+a matrix factorization that is instrumental
+in numerical analysis, machine learning and data science.
+The SVD of a matrix <span>\(A \in \mathbb{C}^{m \times n}\)</span> 
+is a triple <span>\((U, \Sigma, V)\)</span> such that
+  $$
+  A = U \Sigma V^{\ast}
+  $$
+where <span>\(U \in \mathbb{C}^{m \times m}\)</span> and <span>\(V \in \mathbb{C}^{n \times n}\)</span>
+are <em>unitary matrices</em>, <span>\(V^{\ast}\)</span> denotes the <em>conjugate transpose</em> of <span>\(V\)</span> 
+and <span>\(\Sigma \in \mathbb{C}^{m \times n}\)</span> is a <em>diagonal matrix</em> 
+(filled with zeros outside of its main diagonal)
+whose diagonal coefficients <span>\(\sigma_k\)</span>
+-- called the <em>singular values</em> of <span>\(A\)</span> --
+are real and satisfy</p>
+<p>$$
+  \sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_k \geq \dots \geq 0
+  $$</p>
+<h2 id="basic-api">Basic API<a class="headerlink" href="#basic-api" title="Permanent link">&para;</a></h2>
+<p>The <code>svd</code> function of SciPy works like this: you provide the matrix <code>A</code>
+and it computes a matrix <code>U</code>, a vector <code>s</code> and a matrix <code>Vh</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>:</p>
+<pre><code>&gt;&gt;&gt; from scipy.linalg import svd
+&gt;&gt;&gt; U, s, Vh = svd(A)
+</code></pre>
+<p>The default convention deviates a little from the definition of the SVD:
+the vector <code>s</code> is the diagonal of <span>\(\Sigma\)</span> instead of <span>\(\Sigma\)</span> itself
+and <code>Vh</code> corresponds to the conjugate transpose of <span>\(V\)</span> instead of <span>\(V\)</span>.</p>
+<p>While there are good reasons for these conventions, 
+I'd rather follow the <a href="https://en.wikipedia.org/wiki/Principle_of_least_astonishment">principle of least astonishment</a>.
+Thus, by default our SVD
+implementation returns the triple <span>\((U, \Sigma, V)\)</span>:</p>
+<pre><code>&gt;&gt;&gt; from wish.examples import svd
+&gt;&gt;&gt; U, S, V = w.svd(A)
+</code></pre>
+<p>But if you want to follow SciPy conventions instead, 
+it's rather simple since we may select the return values:</p>
+<pre><code>&gt;&gt;&gt; U, s, Vh = w.svd(A, returns="U, s, Vh")
+</code></pre>
+<p><strong>TODO:</strong> explain how we do that !!! Refer to the pattern name, the
+toy example of the source of the result? Explain also how to avoid
+unnecessary computations? Yeah, do goals sections and implementation 
+section</p>
+<h2 id="singular-values">Singular Values<a class="headerlink" href="#singular-values" title="Permanent link">&para;</a></h2>
+<p>We frequently need to compute only the singular values of a matrix.
+The scipy <code>svd</code> achieves this with an additional option <code>compute_uv</code> 
+that can be set to <code>False</code> as describe in the documentation:</p>
+<div class="admonition note">
+<p class="admonition-title">compute_uv: bool, optional.</p>
+<p>Whether to compute also <code>U</code> and <code>Vh</code> in addition to <code>s</code>.
+Default is True.</p>
+</div>
+<p>It is used like this:</p>
+<pre><code>&gt;&gt;&gt; from scipy.linalg import svd
+&gt;&gt;&gt; s = svd(M, compute_uv=False)
+</code></pre>
+<p>This interface is not totally satisfactory: 
+while we easily understand that we won't 
+compute -- and therefore won't return -- <code>U</code> and <code>Vh</code>, 
+it is not totally obvious what is returned. 
+And if in the first place you were only interested 
+in the <code>s</code> array, you may not know what <code>U</code> and <code>Vh</code> are ...
+There is nothing here that cannot be solved by reading 
+the documentation of <code>svd</code>, but still this is not optimal.
+The SciPy folks are apparently aware of this because they have implemented 
+a helper function, <code>svdvals</code>, to avoid calling <code>svd</code> in this case:</p>
+<div class="admonition note">
+<p class="admonition-title">svdvals(a, overwrite_a=False, check_finite=True)</p>
+<p>Compute singular values of a matrix.</p>
+</div>
+<p>With <code>svdvals</code>, we can simply do</p>
+<pre><code>&gt;&gt;&gt; from scipy.linalg import svdvals
+&gt;&gt;&gt; s = svdvals(A)
+</code></pre>
+<p>but of course now, you have another function to remember of.
+And while it is a one-liner, its full documentation essentially 
+duplicates the one of <code>svd</code>.</p>
+<p>With the wish version, the equivalent code is simply</p>
+<pre><code>&gt;&gt;&gt; from wish.examples import svd
+&gt;&gt;&gt; s = svd(A, returns="s")
+</code></pre>
+<p>We know what is returned and a no new function is necessary.</p>
+<h2 id="reconstruction">Reconstruction<a class="headerlink" href="#reconstruction" title="Permanent link">&para;</a></h2>
+<p>Since SciPy <code>svd</code> returns the diagonal of <span>\(\Sigma\)</span>, 
+it comes with the helper function <code>diagsvd</code> to build
+<span>\(\Sigma\)</span> from the singular values:</p>
+<div class="admonition note">
+<p class="admonition-title">diagsvd(s, M, N)</p>
+<p>Construct the sigma matrix in SVD from singular values and size <code>M</code>, <code>N</code>.</p>
+</div>
+<p>It is used like this:</p>
+<pre><code>&gt;&gt;&gt; U, s, Vh = svd(A)
+&gt;&gt;&gt; S = diagsvd(s, shape(U)[1], shape(Vh)[0])
+</code></pre>
+<p>The matrix <code>S</code> is typically used to reconstruct <code>A</code>:</p>
+<pre><code>&gt;&gt;&gt; from numpy import dot
+&gt;&gt;&gt; A = dot(U, dot(S, Vh))
+</code></pre>
+<p>Of course with the wish-enabled version, the same effect is obtained with</p>
+<pre><code>&gt;&gt;&gt; from wish.examples import svd
+&gt;&gt;&gt; U, S, Vh = wsvd(A, returns="U, S, Vh")
+&gt;&gt;&gt; A = dot(U, dot(S, Vh))
+</code></pre>
+<hr />
+<p>Now, if you don't want to reconstruct the matrix <code>A</code> but a version of it
+based on a different set of singular values -- for example to achieve
+some <a href="https://en.wikipedia.org/wiki/Principal_component_analysis#Dimensionality_reduction">dimensionality reduction</a> 
+-- this is easy because NumPy already provides 
+the appropriate functions. First, get the singular values with</p>
+<pre><code>&gt;&gt;&gt; U, S, Vh = w_svd(A, returns="U, S, Vh")
+&gt;&gt;&gt; s = numpy.diagonal(S)
+</code></pre>
+<p>or even with</p>
+<pre><code>&gt;&gt;&gt; U, S, Vh, s = w_svd(A, returns="U, S, Vh, s")
+</code></pre>
+<p>then replace the vector of singular values <code>s</code>
+with a modified vector <code>s2</code> and inject the result in <code>S</code></p>
+<pre><code>&gt;&gt;&gt; s2 = ...
+&gt;&gt;&gt; from numpy import fill_diagonal
+&gt;&gt;&gt; fill_diagonal(S, s)
+&gt;&gt;&gt; A2 = dot(U, dot(S, Vh))
+</code></pre>
+<h2 id="the-new-api">The New API<a class="headerlink" href="#the-new-api" title="Permanent link">&para;</a></h2>
+<p>The redesigned <code>svd</code> function now has arguably a simpler and more consistent
+interface:</p>
+<ul>
+<li>
+<p>The simplest and most common usage follows closely the domain conventions,</p>
+</li>
+<li>
+<p>The "configurable return values" pattern is supported
+     with the extra parameter <code>returns</code></p>
+</li>
+<li>
+<p>The ad hoc parameter <code>compute_uv</code> is not needed anymore.</p>
+</li>
+<li>
+<p>Two helper functions <code>svdvals</code> and <code>diagsvd</code> are not needed anymore</p>
+</li>
+</ul>
+<!--
+The general description of `scipy.linalg.svd` 
+is still perfectly applicable:
+
+!!! Note "Singular Value Decomposition."
+
+    Factorizes the matrix a into two unitary matrices `U` and `Vh`, 
+    and a 1-dim array `s` of singular values (real, non-negative) such that
+    `a == U*S*Vh`, where `S` is a suitably shaped matrix of zeros with
+    main diagonal `s`.
+
+-->
+
+<p>The description of parameters and returned values is only slightly different<sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup>:</p>
+<div class="admonition note">
+<p class="admonition-title">Parameters</p>
+<ul>
+<li>
+<p><code>a</code>: <code>(M, N)</code> array_like</p>
+<p>Matrix to decompose.</p>
+</li>
+<li>
+<p>... </p>
+</li>
+<li>
+<p><code>returns</code>: <code>string</code>, optional </p>
+<p>Select the returned values, among <code>U</code>, <code>S</code>, <code>s</code>, <code>V</code> and <code>Vh</code>.
+Default is <code>"U, S, V"</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Returns</p>
+<p>The selection of return values is configurable with the <code>returns</code> parameter.</p>
+<ul>
+<li>
+<p><code>U</code>: <code>ndarray</code></p>
+<p>Unitary matrix having left singular vectors as columns.</p>
+</li>
+<li>
+<p><code>S</code> : <code>ndarray</code></p>
+<p>A matrix with the singular values of <code>a</code>, sorted in non-increasing
+order, in the main diagonal and zeros elsewhere.</p>
+</li>
+<li>
+<p><code>V</code>: <code>ndarray</code></p>
+<p>Unitary matrix having right singular vectors as columns.</p>
+</li>
+<li>
+<p><code>s</code>: <code>ndarray</code>, not returned by default</p>
+<p>The singular values, sorted in non-increasing order.</p>
+</li>
+<li>
+<p><code>Vh</code>: <code>ndarray</code>, not returned by default</p>
+<p>Conjugate transpose of <code>V</code></p>
+</li>
+</ul>
+</div>
+<!--
+
+#### Parameters
+
+  - `a`: `(M, N)` array_like
+
+    Matrix to decompose.
+
+  - ...
+
+  - `returns`: `string`, optional 
+
+    Select the returned values, among `U`, `S`, `Vh`, `s`.
+    Default is `"U, S, Vh"`.
+
+-->
+
+<!--
+#### Returns
+
+The selection of return values is configurable by the `returns` parameter.
+
+  - `U`: `ndarray`
+
+    Unitary matrix having left singular vectors as columns.
+    Of shape `(M,M)` or ``M,K)`, depending on `full_matrices`.
+
+  - `S` : `ndarray`
+
+    A matrix with the singular values of `a`, sorted in non-increasing
+    order, in the main diagonal and zeros elsewhere.
+    Of shape `(M,N)` or `(K,K)`, depending on `full_matrices`.
+
+  - `Vh`: `ndarray`
+
+    Unitary matrix having right singular vectors as rows.
+    Of shape `(N,N)` or `(K,N)` depending on `full_matrices`.
+
+  - `s`: `ndarray`, not returned by default
+
+    The singular values, sorted in non-increasing order.
+    Of shape `(K,)`, with `K = min(M, N)`.
+
+#### Raises
+
+  - `LinAlgError`
+
+    If SVD computation does not converge.
+
+-->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>For example, if</p>
+<pre><code>  &gt;&gt;&gt; A = [[ 0.0, -2.0,  0.0],
+  ...      [ 1.0,  0.0,  0.0]]
+</code></pre>
+<p>then </p>
+<pre><code>  &gt;&gt;&gt; U
+  array([[1.,  0.],
+        [ 0.,  1.]])
+  &gt;&gt;&gt; s 
+  array([ 2.,  1.])
+  &gt;&gt;&gt; Vh 
+  array([[ 0., -1.,  0.],
+         [ 1.,  0.,  0.],
+         [ 0.,  0.,  1.]])
+</code></pre>
+<p><a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>we have omitted any reference to the the parameters 
+  <code>full_matrices</code>, <code>overwrite_a</code>, <code>check_finite</code> and <code>lapack_driver</code> 
+  since the behavior of <code>svd</code> has not changed in this respect.
+  Refer to the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.svd.html">Scipy documentation</a> for details.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../numerical-differentiation/" title="Numerical Differentiation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Numerical Differentiation
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../reference/" title="Reference" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Reference
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application-6940329b9f.js"></script>
+      
+      
+      <script>app.initialize({url:{base:".."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>
