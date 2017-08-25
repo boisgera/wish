@@ -74,11 +74,6 @@
             "location": "/svd/#the-new-api",
             "text": "The redesigned  svd  function now has arguably a simpler and more consistent\ninterface:    The simplest and most common usage follows closely the domain conventions,    The \"configurable return values\" pattern is supported\n     with the extra parameter  returns    The ad hoc parameter  compute_uv  is not needed anymore.    Two helper functions  svdvals  and  diagsvd  are not needed anymore     The description of parameters and returned values is only slightly different 2 :   Parameters    a :  (M, N)  array_like  Matrix to decompose.    ...     returns :  string , optional   Select the returned values, among  U ,  S ,  s ,  V  and  Vh .\nDefault is  \"U, S, V\" .      Returns  The selection of return values is configurable with the  returns  parameter.    U :  ndarray  Unitary matrix having left singular vectors as columns.    S  :  ndarray  A matrix with the singular values of  a , sorted in non-increasing\norder, in the main diagonal and zeros elsewhere.    V :  ndarray  Unitary matrix having right singular vectors as columns.    s :  ndarray , not returned by default  The singular values, sorted in non-increasing order.    Vh :  ndarray , not returned by default  Conjugate transpose of  V           For example, if    >>> A = [[ 0.0, -2.0,  0.0],\n  ...      [ 1.0,  0.0,  0.0]]  then     >>> U\n  array([[1.,  0.],\n        [ 0.,  1.]])\n  >>> s \n  array([ 2.,  1.])\n  >>> Vh \n  array([[ 0., -1.,  0.],\n         [ 1.,  0.,  0.],\n         [ 0.,  0.,  1.]])  \u21a9    we have omitted any reference to the the parameters \n   full_matrices ,  overwrite_a ,  check_finite  and  lapack_driver  \n  since the behavior of  svd  has not changed in this respect.\n  Refer to the  Scipy documentation  for details.\u00a0 \u21a9",
             "title": "The New API"
-        },
-        {
-            "location": "/reference/",
-            "text": "[TODO]",
-            "title": "Reference"
         }
     ]
 }

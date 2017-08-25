@@ -10,7 +10,8 @@ pages:
   - Examples:
       - "Numerical Differentiation": numerical-differentiation.md
       - "Singular Value Decomposition": svd.md
-  - Reference: reference.md
+#  - Reference: reference.md
+
 theme: "material" 
 
 markdown_extensions:
