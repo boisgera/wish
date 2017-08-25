@@ -2,4 +2,6 @@
 Wish
 ================================================================================
 
-<http://boisgera.github.io/wish/>
+**Selectable Return Values for Python**
+
+Homepage: <http://boisgera.github.io/wish/>
