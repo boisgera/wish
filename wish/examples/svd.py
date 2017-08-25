@@ -15,7 +15,7 @@ __all__ = ['svd', 'orth']
 
 
 def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
-        check_finite=True, returns="U, S, Vh"):
+        check_finite=True, returns="U, S, V"):
     """
     Singular Value Decomposition.
 
@@ -40,7 +40,7 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
         Disabling may give a performance gain, but may result in problems
         (crashes, non-termination) if the inputs do contain infinities or NaNs.
     returns: string, optional
-        Select the returned values, among ``U``, ``S``, ``Vh``, ``s``.
+        Select the returned values, among ``U``, ``S``, ``s``, ``V`` and ``Vh``,.
         Default is ``"U, S, Vh"``.
         
     Returns
@@ -55,12 +55,15 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
         A matrix with the singular values of ``a``, sorted in non-increasing
         order, in the main diagonal and zeros elsewhere.
         Of shape ``(M,N)`` or ``(K,K)``, depending on `full_matrices`.
-    Vh : ndarray
-        Unitary matrix having right singular vectors as rows.
-        Of shape ``(N,N)`` or ``(K,N)`` depending on `full_matrices`.
+    V : ndarray
+        Unitary matrix having right singular vectors as columns.
+        Of shape ``(N,N)`` or ``(N, K)`` depending on `full_matrices`.
     s : ndarray, not returned by default
         The singular values, sorted in non-increasing order.
         Of shape (K,), with ``K = min(M, N)``.
+    Vh : ndarray
+        Unitary matrix having right singular vectors as rows.
+        Of shape ``(N,N)`` or ``(N, K)`` depending on `full_matrices`.
 
     Raises
     ------
@@ -71,26 +74,27 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
     Examples
     --------
     >>> import numpy as np
+    >>> from wish.examples import svd
     >>> a = np.random.randn(9, 6) + 1.j*np.random.randn(9, 6)
-    >>> U, S, Vh, s = svd(a, returns="U, S, Vh, s")
-    >>> U.shape, S.shape, Vh.shape, s.shape
-    ((9, 9), (9, 6), (6, 6), (6,))
+    >>> U, S, V = svd(a)
+    >>> U.shape, S.shape, V.shape
+    ((9, 9), (9, 6), (6, 6))
 
-    >>> U, S, Vh = svd(a, full_matrices=False)
+    >>> U, S, Vh = svd(a, full_matrices=False, returns="U, S, Vh")
     >>> U.shape, S.shape, Vh.shape
-    ((9, 6), (6, 6), (6, 6))
+    ((9, 9), (9, 6), (6, 6))
     >>> np.allclose(a, np.dot(U, np.dot(S, Vh)))
     True
 
-    >>> s2 = svd(a, returns="s")
-    >>> np.allclose(s, s2)
+    >>> s = svd(a, returns="s")
+    >>> np.allclose(s, np.diagonal(S))
     True
 
     """
     wishlist = wish.make(returns)
     for name in wishlist: 
-        if name not in ["U", "S", "Vh", "s"]:
-            error = "svd() wishes for an unexpected return value {name!r}"
+        if name not in ["U", "S", "V", "s", "Vh"]:
+            error = "unexpected return value {name!r}"
             raise TypeError(error.format(name=name))
 
     if check_finite:
@@ -104,6 +108,9 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
     gesdd, = get_lapack_funcs(('gesdd',), (a1,))
 
     lwork = calc_lwork.gesdd(gesdd.typecode, m, n, compute_uv)[1]
+
+    compute_uv = "U" in wishlist or "V" in wishlist or "Vh" in wishlist
+
     U,s,Vh,info = gesdd(a1,compute_uv=compute_uv, lwork=lwork,
                        full_matrices=full_matrices, overwrite_a=overwrite_a)
 
@@ -112,12 +119,17 @@ def svd(a, full_matrices=True, compute_uv=True, overwrite_a=False,
     if info < 0:
         raise ValueError('illegal value in %d-th argument of internal gesdd'
                                                                     % -info)
+
+    if "V" in wishlist:
+        V = Vh.transpose().conjugate() 
     if "S" in wishlist:
-        S = _diagsvd(s, U.shape[1], Vh.shape[0])
+        S = _diagsvd(s, U.shape[1], Vh.shape[0]) 
+        # fuck, maybe not computed. Use shape of A. 
+        # Interaction with full_matrices?
 
     return wishlist.grant()
 
-
+# This function is private
 def _diagsvd(s, M, N):
     """
     Construct the sigma matrix in SVD from singular values and size M, N.
@@ -170,10 +182,10 @@ def orth(A):
     svd : Singular value decomposition of a matrix
 
     """
-    u, s, vh = svd(A, returns="U, s, Vh")
+    U, s = svd(A, returns="U, s")
     M, N = A.shape
     eps = numpy.finfo(float).eps
     tol = max(M,N) * numpy.amax(s) * eps
     num = numpy.sum(s > tol, dtype=int)
-    Q = u[:,:num]
+    Q = U[:,:num]
     return Q
