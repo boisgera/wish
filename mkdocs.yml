@@ -1,0 +1,28 @@
+site_name: Wish
+
+docs_dir: mkdocs
+
+site_dir: docs
+
+pages:
+  - Getting Started: index.md
+  - Installation: installation.md
+  - Examples:
+      - "Numerical Differentiation": numerical-differentiation.md
+      - "Singular Value Decomposition": svd.md
+  - Reference: reference.md
+theme: "material" 
+
+markdown_extensions:
+  - admonition
+  - toc(permalink=true)
+  - footnotes
+  - pymdownx.arithmatex
+
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+
+#repo_name: "wish"
+#repo_url: "https://github.com/boisgera/wish"
+
+
