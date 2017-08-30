@@ -23,6 +23,7 @@ Quickstart
  1. Install wish with pip ([instructions](installation)).
 
  2. Replace your function with many arguments `f`
+
         def f(...):
             ...
             return a, b, c, ..., z
