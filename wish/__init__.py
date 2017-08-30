@@ -4,18 +4,18 @@
 import inspect
 
 # Third-Party Libraries
-import pkg_resources
+pass
 
 #
 # Metadata
 # ------------------------------------------------------------------------------
 #
 __name__        = "wish"
-__version__     = "1.0.1"
+__version__     = "1.1.0-alpha.1"
 __license__     = "MIT License"
 __author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"
-__url__         = "https://warehouse.python.org/project/wishlist"
-__summary__     = "A convenient pattern for multiple return values."
+__url__         = "http://boisgera.github.io/wish/"
+__summary__     = "Selectable Return Values for Python"
 __readme__      = "README.md"
 __classifiers__ = ["Programming Language :: Python :: 2.7" ,
                    "Operating System :: OS Independent"    ,
@@ -51,7 +51,13 @@ class WishList(list):
             for i in range(_back):
                 frame = frame.f_back
             env = frame.f_locals
-        output = tuple([env[name] for name in self])
+        values = []
+        for name in self:
+            if name not in env:
+                error = "{0!r} is not a valid return value"
+                raise NameError(error.format(name))
+            values.append(env[name])
+        output = tuple(values)
         if self._unpack:
             output = output[0]
         return output

@@ -3,7 +3,8 @@ Python 2
 ---------------------------------------------------------------------------------
 
 Wish supports Python 2.7.
-Make sure that the [pip] package installer is available for it
+Make sure that the [pip] package installer is available 
+for this version of the interpreter
 
     $ pip --version
     pip 9.0.1 from /usr/local/lib/python2.7/dist-packages (python 2.7)

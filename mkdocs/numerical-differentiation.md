@@ -33,15 +33,16 @@ While this is a sound idea to provide an error estimate,
 we have broken the original API. 
 Now, in the simplest and more common use case,
 when we do not care about the error, 
-the code is more complex than it should be[^1]:
+the code is more complex than it should be:
 
     >>> import math
     >>> dq, _ = d(sin, x=0.0)
     >>> dq 
     0.9999999999999983
 
-[^1]: Conventionally, a variable is named `_` if its value is ignored.
-
+We have used the underscore instead of `error` for the second 
+returned value: in the classic approach, this is the standard 
+way to signal this value will be ignored.
 
 With Wish
 --------------------------------------------------------------------------------

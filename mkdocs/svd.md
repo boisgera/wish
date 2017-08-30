@@ -1,8 +1,6 @@
 
-
-!!! Summary
-    We redesign the API of the SVD function of SciPy
-    with wish to demonstrate the method and its benefits.
+We redesign the API of the SVD function of SciPy
+with wish to demonstrate the method and its benefits.
 
 Context
 --------------------------------------------------------------------------------
@@ -12,6 +10,21 @@ implements [singular value decomposition](https://en.wikipedia.org/wiki/Singular
 (SVD),
 a matrix factorization that is instrumental
 in numerical analysis, machine learning and data science.
+
+The SVD of a matrix `A` provides three matrices `U`, `Sigma`
+and `V`.
+The matrix `S` has the same shape as `A` and is diagonal 
+(`S[i,j] == 0` unless `i == j`). The matrices `U` and `V` are unitary. 
+Refer for example to [SVD on Wikipedia](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+for more information.
+
+In any case, to compute `A` from `U`, `S` and `V`, do:
+
+    >>> from numpy import dot
+    >>> Vh = V.conjugate().transpose()
+    >>> A = dot(U, dot(S, Vh))
+
+<!--
 The SVD of a matrix $A \in \mathbb{C}^{m \times n}$ 
 is a triple $(U, \Sigma, V)$ such that
   $$
@@ -28,7 +41,7 @@ are real and satisfy
   $$
   \sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_k \geq \dots \geq 0
   $$
-
+-->
 
 Basic API
 --------------------------------------------------------------------------------
@@ -40,8 +53,8 @@ and it computes a matrix `U`, a vector `s` and a matrix `Vh`[^1]:
     >>> U, s, Vh = svd(A)
 
 The default convention deviates a little from the definition of the SVD:
-the vector `s` is the diagonal of $\Sigma$ instead of $\Sigma$ itself
-and `Vh` corresponds to the conjugate transpose of $V$ instead of $V$.
+the vector `s` is the diagonal of `S` instead of `S` itself
+and `Vh` corresponds to the conjugate transpose of `V` instead of `V`.
 
 [^1]: For example, if
 
@@ -63,22 +76,71 @@ and `Vh` corresponds to the conjugate transpose of $V$ instead of $V$.
 While there are good reasons for these conventions, 
 I'd rather follow the [principle of least astonishment][POLA].
 Thus, by default our SVD
-implementation returns the triple $(U, \Sigma, V)$:
+implementation returns the triple `(U, S, V)`:
 
 [POLA]: https://en.wikipedia.org/wiki/Principle_of_least_astonishment
 
     >>> from wish.examples import svd
-    >>> U, S, V = w.svd(A)
+    >>> U, S, V = svd(A)
 
-But if you want to follow SciPy conventions instead, 
+The implementation is simple:
+
+    def svd(A):
+
+        U, S, V = ...
+
+        return U, S, V
+
+Enabling selectable return values for this function is easy:
+
+    import wish
+
+    def svd(A, returns="U, S, V"):
+
+        U, S, V = ... 
+
+        return wish.grant(returns)
+
+But of course in this simple pattern .. **MENTION ERROR CHECKING
+and NAMESPACE VALUE SELECTION**
+
+    def svd(A, returns="U, S, V"):
+        wishlist = wish.make(returns)
+        for name in wishlist:
+            if name not in ["U", "S", "V"]:
+                 error = "{0!r} is not a valid return value"
+                 raise NameError(error.format(name))
+
+        U, S, V = ... 
+
+        return wish.grant(wishlist)
+
+
+Now, it should still be possible to get the output of SciPy, 
 it's rather simple since we may select the return values:
 
-    >>> U, s, Vh = w.svd(A, returns="U, s, Vh")
+    >>> U, s, Vh = svd(A, returns="U, s, Vh")
 
-**TODO:** explain how we do that !!! Refer to the pattern name, the
-toy example of the source of the result? Explain also how to avoid
-unnecessary computations? Yeah, do goals sections and implementation 
-section
+Implementation:
+
+    import numpy
+    import wish
+
+    def svd(A, returns="U, S, V"):
+        wishlist = wish.make(returns)
+        for name in wishlist:
+            if name not in ["U", "S", "V", "s", "Vh"]:
+                 error = "{0!r} is not a valid return value"
+                 raise NameError(error.format(name))
+
+        U, S, V = ... 
+
+        if "s" in wishlist:
+            s = numpy.diagonal(S)
+        if "Vh" in wishlist:
+            Vh = V.conjugate().transpose()
+
+        return wish.grant(wishlist)
 
 
 
@@ -129,6 +191,30 @@ With the wish version, the equivalent code is simply
 
 We know what is returned and a no new function is necessary.
 
+Implementation:
+
+    import numpy
+    import wish
+
+    def svd(A, returns="U, S, V"):
+        wishlist = wish.make(returns)
+        for name in wishlist:
+            if name not in ["U", "S", "V", "s", "Vh"]:
+                 error = "{0!r} is not a valid return value"
+                 raise NameError(error.format(name))
+
+        if "U" in wishlist or "V" in wishlist or "Vh" in wishlist:
+            U, S, V = ... 
+        else:
+            S = ...
+
+        if "s" in wishlist:
+            s = numpy.diagonal(S)
+        if "Vh" in wishlist:
+            Vh = V.conjugate().transpose()
+
+        return wish.grant(wishlist)
+
 
 Reconstruction
 --------------------------------------------------------------------------------
@@ -163,11 +249,6 @@ based on a different set of singular values -- for example to achieve
 some [dimensionality reduction](https://en.wikipedia.org/wiki/Principal_component_analysis#Dimensionality_reduction) 
 -- this is easy because NumPy already provides 
 the appropriate functions. First, get the singular values with
-
-    >>> U, S, Vh = w_svd(A, returns="U, S, Vh")
-    >>> s = numpy.diagonal(S)
-
-or even with
 
     >>> U, S, Vh, s = w_svd(A, returns="U, S, Vh, s")
 

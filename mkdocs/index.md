@@ -1,6 +1,5 @@
 
-!!! Summary 
-    Wish brings **selectable return values** to Python.
+Wish brings **selectable return values** to Python.
 
 Overview
 --------------------------------------------------------------------------------
@@ -13,9 +12,10 @@ Why? Because the language supports natively:
   - [keyword arguments](https://docs.python.org/2.7/tutorial/controlflow.html#keyword-arguments)
   - [argument unpacking](https://docs.python.org/2.7/tutorial/controlflow.html#unpacking-argument-lists)
 
-Now for return values, beyond tuples to deal with multiple values. 
+Now for return values, beyond tuples to deal with multiple values, 
+Python provides actually little constructs. 
 Using functions that return many values is often tedious.
-Wish provides **selectable return values** to solve this issue.
+Wish provides selectable return values to solve this issue.
 
 Quickstart
 --------------------------------------------------------------------------------

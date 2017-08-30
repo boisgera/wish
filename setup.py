@@ -42,7 +42,7 @@ info = dict(
   commands     = {},
   plugins      = {},
   scripts      = {},
-  tests        = dict(test_suite = "test.suite")
+  tests        = dict(test_suite = "wish.test.suite")
 )
 
 if __name__ == "__main__":
