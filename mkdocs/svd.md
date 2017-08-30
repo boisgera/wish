@@ -1,6 +1,9 @@
 
-We redesign the API of the SVD function of SciPy
-with wish to demonstrate the method and its benefits.
+We redesign the API of the SVD function of SciPy with wish.
+
+!!! Warning
+    This example requires having [NumPy](http://www.numpy.org/) and
+    [SciPy](http://www.scipy.org/) installed.
 
 Context
 --------------------------------------------------------------------------------
@@ -83,26 +86,22 @@ implementation returns the triple `(U, S, V)`:
     >>> from wish.examples import svd
     >>> U, S, V = svd(A)
 
-The implementation is simple:
+Say that our starting point is
 
     def svd(A):
-
         U, S, V = ...
-
         return U, S, V
 
-Enabling selectable return values for this function is easy:
+To enable the simplest version of selectable return values, 
+we change the code to:
 
     import wish
 
     def svd(A, returns="U, S, V"):
-
         U, S, V = ... 
-
         return wish.grant(returns)
 
-But of course in this simple pattern .. **MENTION ERROR CHECKING
-and NAMESPACE VALUE SELECTION**
+If you want to check the names that the user requires, do instead
 
     def svd(A, returns="U, S, V"):
         wishlist = wish.make(returns)
@@ -110,18 +109,15 @@ and NAMESPACE VALUE SELECTION**
             if name not in ["U", "S", "V"]:
                  error = "{0!r} is not a valid return value"
                  raise NameError(error.format(name))
-
         U, S, V = ... 
-
         return wish.grant(wishlist)
 
-
-Now, it should still be possible to get the output of SciPy, 
-it's rather simple since we may select the return values:
+Now, we believe that it should be possible to get the same output of SciPy. 
+Tt's rather simple since we have enabled selectable return values:
 
     >>> U, s, Vh = svd(A, returns="U, s, Vh")
 
-Implementation:
+The corresponding implementation is:
 
     import numpy
     import wish
@@ -132,17 +128,12 @@ Implementation:
             if name not in ["U", "S", "V", "s", "Vh"]:
                  error = "{0!r} is not a valid return value"
                  raise NameError(error.format(name))
-
         U, S, V = ... 
-
         if "s" in wishlist:
             s = numpy.diagonal(S)
         if "Vh" in wishlist:
             Vh = V.conjugate().transpose()
-
         return wish.grant(wishlist)
-
-
 
 
 Singular Values
@@ -184,14 +175,15 @@ but of course now, you have another function to remember of.
 And while it is a one-liner, its full documentation essentially 
 duplicates the one of `svd`.
 
-With the wish version, the equivalent code is simply
+With the wish version, the equivalent function call is simply
 
     >>> from wish.examples import svd
     >>> s = svd(A, returns="s")
 
 We know what is returned and a no new function is necessary.
 
-Implementation:
+Now, if we have a simpler algorithm to provide only `S`,
+we may check the list of wishes and proceed accordingly:
 
     import numpy
     import wish
@@ -219,9 +211,9 @@ Implementation:
 Reconstruction
 --------------------------------------------------------------------------------
 
-Since SciPy `svd` returns the diagonal of $\Sigma$, 
+Since SciPy `svd` returns the diagonal `s` of `S` instead of `S` itself, 
 it comes with the helper function `diagsvd` to build
-$\Sigma$ from the singular values:
+`S` from the singular values:
 
 !!! Note "diagsvd(s, M, N)"
     Construct the sigma matrix in SVD from singular values and size `M`, `N`.
@@ -293,7 +285,7 @@ The description of parameters and returned values is only slightly different[^2]
 
 !!! Note "Parameters"
 
-      - `a`: `(M, N)` array_like
+      - `A`: `(M, N)` array_like
 
         Matrix to decompose.
 
@@ -320,7 +312,7 @@ The description of parameters and returned values is only slightly different[^2]
 
       - `S` : `ndarray`
 
-        A matrix with the singular values of `a`, sorted in non-increasing
+        A matrix with the singular values of `A`, sorted in non-increasing
         order, in the main diagonal and zeros elsewhere.
 
       - `V`: `ndarray`

@@ -384,8 +384,12 @@
                 
                   <h1>Singular Value Decomposition</h1>
                 
-                <p>We redesign the API of the SVD function of SciPy
-with wish to demonstrate the method and its benefits.</p>
+                <p>We redesign the API of the SVD function of SciPy with wish.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This example requires having <a href="http://www.numpy.org/">NumPy</a> and
+<a href="http://www.scipy.org/">SciPy</a> installed.</p>
+</div>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>The <a href="http://www.scipy.org/">SciPy</a> library 
 implements <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">singular value decomposition</a>
@@ -438,40 +442,34 @@ implementation returns the triple <code>(U, S, V)</code>:</p>
 <pre><code>&gt;&gt;&gt; from wish.examples import svd
 &gt;&gt;&gt; U, S, V = svd(A)
 </code></pre>
-<p>The implementation is simple:</p>
+<p>Say that our starting point is</p>
 <pre><code>def svd(A):
-
     U, S, V = ...
-
     return U, S, V
 </code></pre>
-<p>Enabling selectable return values for this function is easy:</p>
+<p>To enable the simplest version of selectable return values, 
+we change the code to:</p>
 <pre><code>import wish
 
 def svd(A, returns="U, S, V"):
-
-    U, S, V = ...
-
+    U, S, V = ... 
     return wish.grant(returns)
 </code></pre>
-<p>But of course in this simple pattern .. <strong>MENTION ERROR CHECKING
-and NAMESPACE VALUE SELECTION</strong></p>
+<p>If you want to check the names that the user requires, do instead</p>
 <pre><code>def svd(A, returns="U, S, V"):
     wishlist = wish.make(returns)
     for name in wishlist:
         if name not in ["U", "S", "V"]:
              error = "{0!r} is not a valid return value"
              raise NameError(error.format(name))
-
-    U, S, V = ...
-
+    U, S, V = ... 
     return wish.grant(wishlist)
 </code></pre>
-<p>Now, it should still be possible to get the output of SciPy, 
-it's rather simple since we may select the return values:</p>
+<p>Now, we believe that it should be possible to get the same output of SciPy. 
+Tt's rather simple since we have enabled selectable return values:</p>
 <pre><code>&gt;&gt;&gt; U, s, Vh = svd(A, returns="U, s, Vh")
 </code></pre>
-<p>Implementation:</p>
+<p>The corresponding implementation is:</p>
 <pre><code>import numpy
 import wish
 
@@ -481,14 +479,11 @@ def svd(A, returns="U, S, V"):
         if name not in ["U", "S", "V", "s", "Vh"]:
              error = "{0!r} is not a valid return value"
              raise NameError(error.format(name))
-
-    U, S, V = ...
-
+    U, S, V = ... 
     if "s" in wishlist:
         s = numpy.diagonal(S)
     if "Vh" in wishlist:
         Vh = V.conjugate().transpose()
-
     return wish.grant(wishlist)
 </code></pre>
 <h2 id="singular-values">Singular Values<a class="headerlink" href="#singular-values" title="Permanent link">&para;</a></h2>
@@ -525,12 +520,13 @@ a helper function, <code>svdvals</code>, to avoid calling <code>svd</code> in th
 <p>but of course now, you have another function to remember of.
 And while it is a one-liner, its full documentation essentially 
 duplicates the one of <code>svd</code>.</p>
-<p>With the wish version, the equivalent code is simply</p>
+<p>With the wish version, the equivalent function call is simply</p>
 <pre><code>&gt;&gt;&gt; from wish.examples import svd
 &gt;&gt;&gt; s = svd(A, returns="s")
 </code></pre>
 <p>We know what is returned and a no new function is necessary.</p>
-<p>Implementation:</p>
+<p>Now, if we have a simpler algorithm to provide only <code>S</code>,
+we may check the list of wishes and proceed accordingly:</p>
 <pre><code>import numpy
 import wish
 
@@ -554,9 +550,9 @@ def svd(A, returns="U, S, V"):
     return wish.grant(wishlist)
 </code></pre>
 <h2 id="reconstruction">Reconstruction<a class="headerlink" href="#reconstruction" title="Permanent link">&para;</a></h2>
-<p>Since SciPy <code>svd</code> returns the diagonal of <span>\(\Sigma\)</span>, 
+<p>Since SciPy <code>svd</code> returns the diagonal <code>s</code> of <code>S</code> instead of <code>S</code> itself, 
 it comes with the helper function <code>diagsvd</code> to build
-<span>\(\Sigma\)</span> from the singular values:</p>
+<code>S</code> from the singular values:</p>
 <div class="admonition note">
 <p class="admonition-title">diagsvd(s, M, N)</p>
 <p>Construct the sigma matrix in SVD from singular values and size <code>M</code>, <code>N</code>.</p>
@@ -625,7 +621,7 @@ is still perfectly applicable:
 <p class="admonition-title">Parameters</p>
 <ul>
 <li>
-<p><code>a</code>: <code>(M, N)</code> array_like</p>
+<p><code>A</code>: <code>(M, N)</code> array_like</p>
 <p>Matrix to decompose.</p>
 </li>
 <li>
@@ -648,7 +644,7 @@ Default is <code>"U, S, V"</code>.</p>
 </li>
 <li>
 <p><code>S</code> : <code>ndarray</code></p>
-<p>A matrix with the singular values of <code>a</code>, sorted in non-increasing
+<p>A matrix with the singular values of <code>A</code>, sorted in non-increasing
 order, in the main diagonal and zeros elsewhere.</p>
 </li>
 <li>
