@@ -384,32 +384,44 @@
                 
                   <h1>Singular Value Decomposition</h1>
                 
-                <div class="admonition summary">
-<p class="admonition-title">Summary</p>
-<p>We redesign the API of the SVD function of SciPy
+                <p>We redesign the API of the SVD function of SciPy
 with wish to demonstrate the method and its benefits.</p>
-</div>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>The <a href="http://www.scipy.org/">SciPy</a> library 
 implements <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">singular value decomposition</a>
 (SVD),
 a matrix factorization that is instrumental
-in numerical analysis, machine learning and data science.
-The SVD of a matrix <span>\(A \in \mathbb{C}^{m \times n}\)</span> 
-is a triple <span>\((U, \Sigma, V)\)</span> such that
+in numerical analysis, machine learning and data science.</p>
+<p>The SVD of a matrix <code>A</code> provides three matrices <code>U</code>, <code>Sigma</code>
+and <code>V</code>.
+The matrix <code>S</code> has the same shape as <code>A</code> and is diagonal 
+(<code>S[i,j] == 0</code> unless <code>i == j</code>). The matrices <code>U</code> and <code>V</code> are unitary. 
+Refer for example to <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD on Wikipedia</a>
+for more information.</p>
+<p>In any case, to compute <code>A</code> from <code>U</code>, <code>S</code> and <code>V</code>, do:</p>
+<pre><code>&gt;&gt;&gt; from numpy import dot
+&gt;&gt;&gt; Vh = V.conjugate().transpose()
+&gt;&gt;&gt; A = dot(U, dot(S, Vh))
+</code></pre>
+<!--
+The SVD of a matrix $A \in \mathbb{C}^{m \times n}$ 
+is a triple $(U, \Sigma, V)$ such that
   $$
   A = U \Sigma V^{\ast}
   $$
-where <span>\(U \in \mathbb{C}^{m \times m}\)</span> and <span>\(V \in \mathbb{C}^{n \times n}\)</span>
-are <em>unitary matrices</em>, <span>\(V^{\ast}\)</span> denotes the <em>conjugate transpose</em> of <span>\(V\)</span> 
-and <span>\(\Sigma \in \mathbb{C}^{m \times n}\)</span> is a <em>diagonal matrix</em> 
+where $U \in \mathbb{C}^{m \times m}$ and $V \in \mathbb{C}^{n \times n}$
+are *unitary matrices*, $V^{\ast}$ denotes the *conjugate transpose* of $V$ 
+and $\Sigma \in \mathbb{C}^{m \times n}$ is a *diagonal matrix* 
 (filled with zeros outside of its main diagonal)
-whose diagonal coefficients <span>\(\sigma_k\)</span>
--- called the <em>singular values</em> of <span>\(A\)</span> --
-are real and satisfy</p>
-<p>$$
+whose diagonal coefficients $\sigma_k$
+-- called the *singular values* of $A$ --
+are real and satisfy
+
+  $$
   \sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_k \geq \dots \geq 0
-  $$</p>
+  $$
+-->
+
 <h2 id="basic-api">Basic API<a class="headerlink" href="#basic-api" title="Permanent link">&para;</a></h2>
 <p>The <code>svd</code> function of SciPy works like this: you provide the matrix <code>A</code>
 and it computes a matrix <code>U</code>, a vector <code>s</code> and a matrix <code>Vh</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>:</p>
@@ -417,23 +429,68 @@ and it computes a matrix <code>U</code>, a vector <code>s</code> and a matrix <c
 &gt;&gt;&gt; U, s, Vh = svd(A)
 </code></pre>
 <p>The default convention deviates a little from the definition of the SVD:
-the vector <code>s</code> is the diagonal of <span>\(\Sigma\)</span> instead of <span>\(\Sigma\)</span> itself
-and <code>Vh</code> corresponds to the conjugate transpose of <span>\(V\)</span> instead of <span>\(V\)</span>.</p>
+the vector <code>s</code> is the diagonal of <code>S</code> instead of <code>S</code> itself
+and <code>Vh</code> corresponds to the conjugate transpose of <code>V</code> instead of <code>V</code>.</p>
 <p>While there are good reasons for these conventions, 
 I'd rather follow the <a href="https://en.wikipedia.org/wiki/Principle_of_least_astonishment">principle of least astonishment</a>.
 Thus, by default our SVD
-implementation returns the triple <span>\((U, \Sigma, V)\)</span>:</p>
+implementation returns the triple <code>(U, S, V)</code>:</p>
 <pre><code>&gt;&gt;&gt; from wish.examples import svd
-&gt;&gt;&gt; U, S, V = w.svd(A)
+&gt;&gt;&gt; U, S, V = svd(A)
 </code></pre>
-<p>But if you want to follow SciPy conventions instead, 
+<p>The implementation is simple:</p>
+<pre><code>def svd(A):
+
+    U, S, V = ...
+
+    return U, S, V
+</code></pre>
+<p>Enabling selectable return values for this function is easy:</p>
+<pre><code>import wish
+
+def svd(A, returns="U, S, V"):
+
+    U, S, V = ...
+
+    return wish.grant(returns)
+</code></pre>
+<p>But of course in this simple pattern .. <strong>MENTION ERROR CHECKING
+and NAMESPACE VALUE SELECTION</strong></p>
+<pre><code>def svd(A, returns="U, S, V"):
+    wishlist = wish.make(returns)
+    for name in wishlist:
+        if name not in ["U", "S", "V"]:
+             error = "{0!r} is not a valid return value"
+             raise NameError(error.format(name))
+
+    U, S, V = ...
+
+    return wish.grant(wishlist)
+</code></pre>
+<p>Now, it should still be possible to get the output of SciPy, 
 it's rather simple since we may select the return values:</p>
-<pre><code>&gt;&gt;&gt; U, s, Vh = w.svd(A, returns="U, s, Vh")
+<pre><code>&gt;&gt;&gt; U, s, Vh = svd(A, returns="U, s, Vh")
 </code></pre>
-<p><strong>TODO:</strong> explain how we do that !!! Refer to the pattern name, the
-toy example of the source of the result? Explain also how to avoid
-unnecessary computations? Yeah, do goals sections and implementation 
-section</p>
+<p>Implementation:</p>
+<pre><code>import numpy
+import wish
+
+def svd(A, returns="U, S, V"):
+    wishlist = wish.make(returns)
+    for name in wishlist:
+        if name not in ["U", "S", "V", "s", "Vh"]:
+             error = "{0!r} is not a valid return value"
+             raise NameError(error.format(name))
+
+    U, S, V = ...
+
+    if "s" in wishlist:
+        s = numpy.diagonal(S)
+    if "Vh" in wishlist:
+        Vh = V.conjugate().transpose()
+
+    return wish.grant(wishlist)
+</code></pre>
 <h2 id="singular-values">Singular Values<a class="headerlink" href="#singular-values" title="Permanent link">&para;</a></h2>
 <p>We frequently need to compute only the singular values of a matrix.
 The scipy <code>svd</code> achieves this with an additional option <code>compute_uv</code> 
@@ -473,6 +530,29 @@ duplicates the one of <code>svd</code>.</p>
 &gt;&gt;&gt; s = svd(A, returns="s")
 </code></pre>
 <p>We know what is returned and a no new function is necessary.</p>
+<p>Implementation:</p>
+<pre><code>import numpy
+import wish
+
+def svd(A, returns="U, S, V"):
+    wishlist = wish.make(returns)
+    for name in wishlist:
+        if name not in ["U", "S", "V", "s", "Vh"]:
+             error = "{0!r} is not a valid return value"
+             raise NameError(error.format(name))
+
+    if "U" in wishlist or "V" in wishlist or "Vh" in wishlist:
+        U, S, V = ... 
+    else:
+        S = ...
+
+    if "s" in wishlist:
+        s = numpy.diagonal(S)
+    if "Vh" in wishlist:
+        Vh = V.conjugate().transpose()
+
+    return wish.grant(wishlist)
+</code></pre>
 <h2 id="reconstruction">Reconstruction<a class="headerlink" href="#reconstruction" title="Permanent link">&para;</a></h2>
 <p>Since SciPy <code>svd</code> returns the diagonal of <span>\(\Sigma\)</span>, 
 it comes with the helper function <code>diagsvd</code> to build
@@ -500,10 +580,6 @@ based on a different set of singular values -- for example to achieve
 some <a href="https://en.wikipedia.org/wiki/Principal_component_analysis#Dimensionality_reduction">dimensionality reduction</a> 
 -- this is easy because NumPy already provides 
 the appropriate functions. First, get the singular values with</p>
-<pre><code>&gt;&gt;&gt; U, S, Vh = w_svd(A, returns="U, S, Vh")
-&gt;&gt;&gt; s = numpy.diagonal(S)
-</code></pre>
-<p>or even with</p>
 <pre><code>&gt;&gt;&gt; U, S, Vh, s = w_svd(A, returns="U, S, Vh, s")
 </code></pre>
 <p>then replace the vector of singular values <code>s</code>

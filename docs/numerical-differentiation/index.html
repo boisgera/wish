@@ -369,12 +369,15 @@
 we have broken the original API. 
 Now, in the simplest and more common use case,
 when we do not care about the error, 
-the code is more complex than it should be<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>:</p>
+the code is more complex than it should be:</p>
 <pre><code>&gt;&gt;&gt; import math
 &gt;&gt;&gt; dq, _ = d(sin, x=0.0)
 &gt;&gt;&gt; dq 
 0.9999999999999983
 </code></pre>
+<p>We have used the underscore instead of <code>error</code> for the second 
+returned value: in the classic approach, this is the standard 
+way to signal this value will be ignored.</p>
 <h2 id="with-wish">With Wish<a class="headerlink" href="#with-wish" title="Permanent link">&para;</a></h2>
 <p>To get a decent API in both cases, we may use wish and
 specify in the function signature an extra argument that lists the value(s) 
@@ -393,14 +396,6 @@ returned by default</p>
 <pre><code>&gt;&gt;&gt; d(sin, x=0.0, returns="dq, error")
 (0.9999999999999983, -2.4424906541753444e-15)
 </code></pre>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>Conventionally, a variable is named <code>_</code> if its value is ignored.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
                 
                   
                 
