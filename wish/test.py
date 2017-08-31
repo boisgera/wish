@@ -3,7 +3,7 @@
 
 """
 Wishlist Test Suite
-===================
+================================================================================
 
     >>> import wish
 
@@ -48,6 +48,23 @@ Wishlist Test Suite
     True
     >>> wish.make("a, b, c,") == ["a", "b", "c"]
     True
+
+
+Numerical Differentiation Example
+--------------------------------------------------------------------------------
+
+    >>> def d(f, x, h=1e-7, returns="dq"):
+    ...     dq = (f(x + h) - f(x)) / h
+    ...     dq2 = (f(x + 0.5*h) - f(x)) / (0.5*h)
+    ...     error = 2 * (dq - dq2)
+    ...     return wish.grant(returns)
+    >>> from math import sin
+    >>> d(sin, x=0.0)
+    0.9999999999999983
+    >>> d(sin, x=0.0, returns="dq, error")
+    (0.9999999999999983, -2.4424906541753444e-15)
+    >>> d(sin, x=0.0, returns="error")
+    -2.4424906541753444e-15
 
 """
 
