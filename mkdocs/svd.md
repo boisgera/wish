@@ -110,7 +110,7 @@ If you want to check the names that the user requires, do instead
                  error = "{0!r} is not a valid return value"
                  raise NameError(error.format(name))
         U, S, V = ... 
-        return wish.grant(wishlist)
+        return wishlist.grant()
 
 Now, we believe that it should be possible to get the same output of SciPy. 
 Tt's rather simple since we have enabled selectable return values:
@@ -133,7 +133,7 @@ The corresponding implementation is:
             s = numpy.diagonal(S)
         if "Vh" in wishlist:
             Vh = V.conjugate().transpose()
-        return wish.grant(wishlist)
+        return wishlist.grant()
 
 
 Singular Values
@@ -205,7 +205,7 @@ we may check the list of wishes and proceed accordingly:
         if "Vh" in wishlist:
             Vh = V.conjugate().transpose()
 
-        return wish.grant(wishlist)
+        return wishlist.grant()
 
 
 Reconstruction

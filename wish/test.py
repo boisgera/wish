@@ -88,6 +88,16 @@ SVD Example
   True
   >>> (V.conjugate().transpose() == sp["Vh"]).all()
   True
+  >>> U, s, Vh = svd(A, returns="U, s, Vh")
+  >>> (U == sp["U"]).all()
+  True
+  >>> (s == sp["s"]).all()
+  True
+  >>> (Vh == sp["Vh"]).all()
+  True
+  >>> s = svd(A, returns="s")
+  >>> (s == sp["s"]).all()
+  True
 
 """
 
