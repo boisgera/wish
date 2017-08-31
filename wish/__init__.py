@@ -11,7 +11,7 @@ pass
 # ------------------------------------------------------------------------------
 #
 __name__        = "wish"
-__version__     = "1.1.0-alpha.1"
+__version__     = "1.1.0"
 __license__     = "MIT License"
 __author__      = u"Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"
 __url__         = "http://boisgera.github.io/wish/"
