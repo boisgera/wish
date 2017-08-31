@@ -70,10 +70,24 @@ Numerical Differentiation Example
 SVD Example
 --------------------------------------------------------------------------------
 
+  >>> from numpy import dot, diagonal, shape
+
   >>> A = [[ 0.0, -2.0,  0.0],
   ...      [ 1.0,  0.0,  0.0]]
-  >>> from scipy.linalg import svd
-  >>> U, s, Vh = svd(A)
+
+  >>> from scipy.linalg import svd, diagsvd
+  >>> sp = {}
+  >>> sp["U"], sp["s"], sp["Vh"] = svd(A)
+  >>> sp["S"] = diagsvd(sp["s"], shape(sp["U"])[1], shape(sp["Vh"])[0])
+
+  >>> from wish.examples import svd
+  >>> U, S, V = svd(A)
+  >>> (U == sp["U"]).all()
+  True
+  >>> (diagonal(S) == sp["s"]).all()
+  True
+  >>> (V.conjugate().transpose() == sp["Vh"]).all()
+  True
 
 """
 
