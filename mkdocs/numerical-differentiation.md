@@ -35,7 +35,6 @@ Now, in the simplest and more common use case,
 when we do not care about the error, 
 the code is more complex than it should be:
 
-    >>> import math
     >>> dq, _ = d(sin, x=0.0)
     >>> dq 
     0.9999999999999983
