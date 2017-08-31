@@ -463,7 +463,7 @@ def svd(A, returns="U, S, V"):
              error = "{0!r} is not a valid return value"
              raise NameError(error.format(name))
     U, S, V = ... 
-    return wish.grant(wishlist)
+    return wishlist.grant()
 </code></pre>
 <p>Now, we believe that it should be possible to get the same output of SciPy. 
 Tt's rather simple since we have enabled selectable return values:</p>
@@ -484,7 +484,7 @@ def svd(A, returns="U, S, V"):
         s = numpy.diagonal(S)
     if "Vh" in wishlist:
         Vh = V.conjugate().transpose()
-    return wish.grant(wishlist)
+    return wishlist.grant()
 </code></pre>
 <h2 id="singular-values">Singular Values<a class="headerlink" href="#singular-values" title="Permanent link">&para;</a></h2>
 <p>We frequently need to compute only the singular values of a matrix.
@@ -547,7 +547,7 @@ def svd(A, returns="U, S, V"):
     if "Vh" in wishlist:
         Vh = V.conjugate().transpose()
 
-    return wish.grant(wishlist)
+    return wishlist.grant()
 </code></pre>
 <h2 id="reconstruction">Reconstruction<a class="headerlink" href="#reconstruction" title="Permanent link">&para;</a></h2>
 <p>Since SciPy <code>svd</code> returns the diagonal <code>s</code> of <code>S</code> instead of <code>S</code> itself, 
