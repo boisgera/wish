@@ -4,6 +4,7 @@ python:
 install: "pip install ."
 before_install:
   - pip install --target=.lib --ignore-installed 'about>=4.0.0'
+  - pip install scipy
 install: "pip install ."
 # command to run tests
 script: "python setup.py test"

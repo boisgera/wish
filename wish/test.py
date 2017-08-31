@@ -66,6 +66,15 @@ Numerical Differentiation Example
     >>> d(sin, x=0.0, returns="error")
     -2.4424906541753444e-15
 
+
+SVD Example
+--------------------------------------------------------------------------------
+
+  >>> A = [[ 0.0, -2.0,  0.0],
+  ...      [ 1.0,  0.0,  0.0]]
+  >>> from scipy.linalg import svd
+  >>> U, s, Vh = svd(A)
+
 """
 
 # Python 2.7 Standard Library
