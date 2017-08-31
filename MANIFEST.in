@@ -1,4 +1,4 @@
-include test.py
+include README.md
 recursive-include .lib *
 recursive-exclude .lib *.pyc
 
